@@ -32,4 +32,18 @@ class foreman_proxy::plugin::dynflow (
     listen_on     => $listen_on,
     template_path => 'foreman_proxy/plugin/dynflow.yml.erb',
   }
+
+  if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
+    $scl_prefix = 'tfm-'
+  } else {
+    $scl_prefix = ''
+  }
+
+  foreman_proxy::plugin { 'dynflow_core':
+    package => "${scl_prefix}${::foreman_proxy::plugin_prefix}dynflow_core",
+  } ~>
+  service { 'smart_proxy_dynflow_core':
+    enable  => true,
+    ensure  => running,
+  }
 }
