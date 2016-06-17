@@ -25,6 +25,15 @@ class foreman_proxy::plugin::dynflow (
   validate_listen_on($listen_on)
   validate_absolute_path($database_path)
 
+  $core_port = 8008
+  $use_ssl = $foreman_proxy::ssl
+
+  if $use_ssl {
+    $core_url = "https://${::fqdn}:${core_port}"
+  } else {
+    $core_url = "http://${::fqdn}:${core_port}"
+  }
+
   foreman_proxy::plugin { 'dynflow':
   } ->
   foreman_proxy::settings_file { 'dynflow':
@@ -35,15 +44,21 @@ class foreman_proxy::plugin::dynflow (
 
   if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
     $scl_prefix = 'tfm-'
+    $core_config_file = '/opt/theforeman/tfm/root/etc/smart_proxy_dynflow_core/settings.yml'
   } else {
-    $scl_prefix = ''
+    $scl_prefix = '' # lint:ignore:empty_string_assignment
+    $core_config_file = '/etc/smart_proxy_dynflow_core/settings.yml'
   }
 
   foreman_proxy::plugin { 'dynflow_core':
     package => "${scl_prefix}${::foreman_proxy::plugin_prefix}dynflow_core",
+  } ->
+  file { $core_config_file:
+    ensure  => file,
+    content => template('foreman_proxy/plugin/dynflow_core.yml.erb'),
   } ~>
   service { 'smart_proxy_dynflow_core':
-    enable  => true,
-    ensure  => running,
+    ensure => running,
+    enable => true,
   }
 }
