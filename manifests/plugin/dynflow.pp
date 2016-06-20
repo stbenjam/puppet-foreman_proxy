@@ -14,18 +14,20 @@
 # $console_auth::    Whether to enable trusted hosts and ssl for the dynflow console
 #                    type:boolean
 #
+# $core_port::       Port to use for the local dynflow core service
+#
 class foreman_proxy::plugin::dynflow (
   $enabled           = $::foreman_proxy::plugin::dynflow::params::enabled,
   $listen_on         = $::foreman_proxy::plugin::dynflow::params::listen_on,
   $database_path     = $::foreman_proxy::plugin::dynflow::params::database_path,
   $console_auth      = $::foreman_proxy::plugin::dynflow::params::console_auth,
+  $core_port         = $::foreman_proxy::plugin::dynflow::params::core_port,
 ) inherits foreman_proxy::plugin::dynflow::params {
 
   validate_bool($enabled, $console_auth)
   validate_listen_on($listen_on)
   validate_absolute_path($database_path)
 
-  $core_port = 8008
   $use_ssl = $foreman_proxy::ssl
 
   if $use_ssl {

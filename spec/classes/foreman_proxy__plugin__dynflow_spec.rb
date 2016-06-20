@@ -26,7 +26,7 @@ describe 'foreman_proxy::plugin::dynflow' do
           "---",
           ":database: /var/lib/foreman-proxy/dynflow/dynflow.sqlite",
           ":console_auth: true",
-          ":callback_url: https://foo.example.com",
+          ":foreman_url: https://foo.example.com",
           ":listen: 127.0.0.1",
           ":port: 8008",
           ":use_https: true",

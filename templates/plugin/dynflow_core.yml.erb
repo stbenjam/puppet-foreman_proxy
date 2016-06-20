@@ -4,7 +4,7 @@
 :console_auth: <%= scope.lookupvar('::foreman_proxy::plugin::dynflow::console_auth') %>
 
 # URL of the foreman, used for reporting back
-:callback_url: <%= scope.lookupvar("foreman_proxy::foreman_base_url") %>
+:foreman_url: <%= scope.lookupvar("foreman_proxy::foreman_base_url") %>
 
 # SSL settings for client authentication against foreman.
 <% if scope.lookupvar("foreman_proxy::foreman_ssl_ca") -%>
