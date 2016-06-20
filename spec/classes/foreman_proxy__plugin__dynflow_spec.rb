@@ -17,7 +17,22 @@ describe 'foreman_proxy::plugin::dynflow' do
           '---',
           ':enabled: https',
           ':database: /var/lib/foreman-proxy/dynflow/dynflow.sqlite',
-          ':console_auth: true',
+          ':core_url: https://foo.example.com:8008',
+      ])
+    end
+
+    it 'should generate correct dynflow core settings.yml' do
+      verify_exact_contents(catalogue, "/opt/theforeman/tfm/root/etc/smart_proxy_dynflow_core/settings.yml", [
+          "---",
+          ":database: /var/lib/foreman-proxy/dynflow/dynflow.sqlite",
+          ":console_auth: true",
+          ":callback_url: https://foo.example.com",
+          ":listen: 127.0.0.1",
+          ":port: 8008",
+          ":use_https: true",
+          ":ssl_ca_file: /var/lib/puppet/ssl/certs/ca.pem",
+          ":ssl_certificate: /var/lib/puppet/ssl/certs/foo.example.com.pem",
+          ":ssl_private_key: /var/lib/puppet/ssl/private_keys/foo.example.com.pem"
       ])
     end
   end

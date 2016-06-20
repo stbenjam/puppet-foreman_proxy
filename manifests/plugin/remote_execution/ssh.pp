@@ -67,7 +67,7 @@ class foreman_proxy::plugin::remote_execution::ssh (
   if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
     $scl_prefix = 'tfm-'
   } else {
-    $scl_prefix = ''
+    $scl_prefix = '' # lint:ignore:empty_string_assignment
   }
 
   foreman_proxy::plugin { 'remote_execution_ssh_core':
