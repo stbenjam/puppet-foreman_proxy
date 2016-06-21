@@ -44,6 +44,7 @@ class foreman_proxy::plugin::dynflow (
     template_path => 'foreman_proxy/plugin/dynflow.yml.erb',
   }
 
+  $core_config_file = '/etc/smart_proxy_dynflow_core/settings.yml'
   if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
     $scl_prefix = 'tfm-'
   } else {
