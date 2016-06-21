@@ -44,12 +44,11 @@ class foreman_proxy::plugin::dynflow (
     template_path => 'foreman_proxy/plugin/dynflow.yml.erb',
   }
 
+  $core_config_file = '/etc/smart_proxy_dynflow_core/settings.yml'
   if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
     $scl_prefix = 'tfm-'
-    $core_config_file = '/opt/theforeman/tfm/root/etc/smart_proxy_dynflow_core/settings.yml'
   } else {
     $scl_prefix = '' # lint:ignore:empty_string_assignment
-    $core_config_file = '/etc/smart_proxy_dynflow_core/settings.yml'
   }
 
   foreman_proxy::plugin { 'dynflow_core':
